@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeFi Token Historical Data Viewer</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>DeFi Token Historical Data Viewer</h1>
+    <form action="/" method="post">
+        <label for="token_id">Token ID (e.g., bitcoin, ethereum, dai):</label>
+        <input type="text" id="token_id" name="token_id" required>
+
+        <label for="days">Number of Days (e.g., 30, 90, 365):</label>
+        <input type="number" id="days" name="days" required>
+
+        <button type="submit">Get Data</button>
+    </form>
+    {% if graphJSON %}
+        <div id="chart" style="width:100%;height:100%;"></div>
+        <script>
+            var graphJSON = {{ graphJSON | safe }};
+            Plotly.newPlot('chart', graphJSON.data, graphJSON.layout);
+        </script>
+    {% else %}
+        <p>Enter a token ID and number of days to see historical data.</p>
+    {% endif %}
+</body>
+</html>
